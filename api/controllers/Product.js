@@ -1,5 +1,5 @@
 let  Product = require('../models/Product');
-
+var uuid = require('uuid');
 
 //find   Store Manager  Products
  exports.Find_Product = (req,res,next)=>{
@@ -10,31 +10,54 @@ let  Product = require('../models/Product');
 
 }
 
+  exports.Find_Edit_Product = (req,res,next)=>{
+     Product.find({'productid':req.params.productid})
+     .then(Productfind=>res.json(Productfind))
+     .catch(err=>res.status(400).json("Error:"+err))
+  
+  }
+
+
+
+
+  //find all products
+  exports.Find_All_Product = (req,res,next)=>{
+
+    Product.find()
+    .then(products => res.json(products))
+     .catch(err=>res.status(400).json('Error :'+err));
+
+  };
+
+
 
        //Add Products to db
 
  exports.Store_Product = (req,res,next)=>{
 
-    const productid = req.body.productid;
+    const  productid  = "P-"+ uuid.v4();
     const description = req.body.description;
     const  maincategory = req.body.maincategory;
     const  subcategory = req.body.subcategory;
     const  price = Number(req.body.price);
     const  quantity = Number(req.body.quantity);
+    const  discount = Number(req.body.discount);
     const stockmanagerid = req.body.stockmanagerid;
 
    const  newProduct = new Product({
-    productid,
+    productid,   
     description,
     maincategory,
     subcategory,
     price,
     quantity,
+    discount,
     stockmanagerid,
    });
 
    if(req.file){
-       newProduct.image = req.file.path
+       newProduct.image = req.file.filename
+      // console.log(req.file.filename)
    }
    newProduct.save()
    .then(()=>res.json('Product Added!'))
@@ -47,23 +70,29 @@ let  Product = require('../models/Product');
 
  exports.Update_Product = (req,res,next)=>{
        
-     Product.findByIdAndUpdate(req.params.productid)
+     Product.findOne({'productid':req.params.productid})
      .then(product =>{
+        // product.productid  = req.body.productid;
          product.description = req.body.description;
-         product.maincategory =  req.body.maincategory;
-         product.subcategory  =   req.body.subcategory;
-         product.price  =  Number(req.body.price); 
-         product.quantity = Number(req.body.quantity);
+         product.maincategory = req.body.maincategory;
+         product.subcategory  = req.body.subcategory;
+         product.price = Number(req.body.price); 
+         product.quantity =Number(req.body.quantity);
+         product.discount =Number(req.body.discount);
+         product.stockmanagerid =req.body.stockmanagerid;
 
+            
          if(req.file){
-            newProduct.image = req.file.path
+            product.image = req.file.filename
+          
         }
-
+         console.log(product)
+      
          product.save()
          .then(()=>res.json('Product Updated'))
          .catch(err=>res.status(400).json('Error'+err));
      })
-     .catch(err=> res.status(400).json('Err'+err));
+     .catch(err=> res.status(400).json('Err'+err)) 
      
  }
 
