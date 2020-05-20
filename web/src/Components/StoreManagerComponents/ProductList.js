@@ -1,23 +1,23 @@
 import React, { Component } from 'react'
 import  {Link}  from  'react-router-dom'
 import axios from 'axios'
-import editimage from './edit.png'
+import  editimage from './images/edit.png';
 import Footer from '../CommonComponents/footer';
-import deleteimage from './delete.png'
+import deleteimage from  './images/delete.png';
 
 const Product = props =>{
    if(props.product.quantity == 0)
    {
     return(
       <tr>
-        <td className="tabletext">{props.product.description}</td>
-        <td className="tabletext">{props.product.maincategory}</td>
-        <td className="tabletext">{props.product.subcategory}</td>
-        <td className="tabletext">{props.product.price}</td>
-        <td className="tabletext"><div className="quantitycolor">Out of Stock</div></td>
-        <td className="tabletext">{props.product.discount}</td>
-        <td className="tabletext"><img src={'http://localhost:5000/uploads/'+props.product.image} alt="Product" style={{width: "25%" , marginTop: "2.5%" , marginBottom: "2.5%" }} /></td>
-        <td className="tabletext">{props.product.stockmanagerid}</td>
+        <td className="tabletext"><b>{props.product.description}</b></td>
+        <td className="tabletext"><b>{props.product.maincategory}</b></td>
+        <td className="tabletext"><b>{props.product.subcategory}</b></td>
+        <td className="tabletext"><b>{props.product.price}</b></td>
+        <td className="tabletext"><b><div className="quantitycolor">Out of Stock</div></b></td>
+        <td className="tabletext"><b>{props.product.discount}</b></td>
+        <td className="tabletext"><img src={props.product.image} alt="Product" style={{width: "10%" , marginTop: "0.5%" , marginBottom: "0.5%" }} /></td>
+        {/* <td className="tabletext"><b>{props.product.stockmanagerid}</b></td> */}
         <td>
          <Link  to= {'/Product/edit/'+props.product.productid}><button  className ="productlistbuttoncolor"><img  src={editimage} alt="logo"/></button></Link>
         </td>  
@@ -30,14 +30,14 @@ const Product = props =>{
    else
    { return(
       <tr>
-        <td className="tabletext">{props.product.description}</td>
-        <td className="tabletext">{props.product.maincategory}</td>
-        <td className="tabletext">{props.product.subcategory}</td>
-        <td className="tabletext">{props.product.price}</td>
-        <td className="tabletext"> {props.product.quantity}</td>
-        <td className="tabletext">{props.product.discount}</td>
-        <td className="tabletext"><img src={'http://localhost:5000/uploads/'+props.product.image} alt="Product" style={{width: "25%" , marginTop: "2.5%" , marginBottom: "2.5%" }} /></td>
-        <td className="tabletext">{props.product.stockmanagerid}</td>
+        <td className="tabletext"><b>{props.product.description}</b></td>
+        <td className="tabletext"><b>{props.product.maincategory}</b></td>
+        <td className="tabletext"><b>{props.product.subcategory}</b></td>
+        <td className="tabletext"><b>{props.product.price}</b></td>
+        <td className="tabletext"><b>{props.product.quantity}</b></td>
+        <td className="tabletext"><b>{props.product.discount}</b></td>
+        <td className="tabletext"><img src={props.product.image} alt="Product" style={{width: "10%" , marginTop: "0.5%" , marginBottom: "0.5%" }} /></td>
+        {/* <td className="tabletext"><b>{props.product.stockmanagerid}</b></td> */}
         <td>
          <Link  to= {'/Product/edit/'+props.product.productid}><button  className ="productlistbuttoncolor"><img  src={editimage} alt="logo"/></button></Link>
         </td>  
@@ -105,9 +105,9 @@ export class ProductList extends Component {
         <h3 className="header">Product List</h3>
         <br></br>
            <div className="jumbotron" >
-             <table id="dtBasicExample" className="table table-striped table-bordered table-responsive-md" color="deep-purple" cellSpacing="0" width="100%">
-              <thead className="thead-light">
-                <tr>
+             <table id="dtBasicExample" className="table table-striped table-bordered table-responsive-md" style={{bordercolor:"#5e35b1"}} cellSpacing="0" width="100%">
+              <thead className="thead thead-danger" style={{background:"#ef5350", color:"#ffffff"}}>
+                <tr style={{background:"#c62828"}}>
                   <th className="tabletext">Description</th>
                   <th className="tabletext">MainCategory</th>
                   <th className="tabletext">SubCategory</th>
@@ -115,7 +115,7 @@ export class ProductList extends Component {
                   <th className="tabletext">Quantity</th>
                   <th className="tabletext">Discount</th>
                   <th className="tabletext">Image</th>
-                  <th className="tabletext">Stock Manager Id</th>
+                  {/* <th className="tabletext">Stock Manager Id</th> */}
                   <th className="tabletext">Edit</th>
                   <th className="tabletext">Delete</th>
                 </tr>
@@ -125,7 +125,6 @@ export class ProductList extends Component {
              </tbody>
             </table>
           </div>  
-        <Footer/>
       </div>
     )
   }

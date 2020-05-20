@@ -17,6 +17,8 @@ import MainCategory from './Components/CategoryComponents/mainCategory';
 import AddStoreManager from './Components/AdminComponents/AddStoreManager';
 import showStoreManager from './Components/AdminComponents/showStoreManager';
 import AddCategory from './Components/CategoryComponents/AddCategory';
+import homePage from './Components/AdminHomePage/homePage';
+import storemanagerDetails from './Components/StoreManagerComponents/storeManagerDetails';
 //
 //
 //
@@ -34,6 +36,7 @@ import AddCategory from './Components/CategoryComponents/AddCategory';
  import Comments from './Components/UserComponents/comments'
  import Rating from './Components/UserComponents/Rating'
  import Home from './Components/UserComponents/Home'
+//  import Notification from './Components/UserComponents/notification'
  //---------------------------------------------------------------------
 //
 //
@@ -48,6 +51,7 @@ import Cartpage from "./Components/CartComponents/CartPage";
 import PlaceOrder from "./Components/CartComponents/PlaceOrder";
 import WatchList from "./Components/CartComponents/WatchList"
 import OrderCompleteDetails from "./Components/CartComponents/OrderCompleteDetails";
+import WatchListItems from "./Components/CartComponents/WatchListItems";
 
 
 
@@ -192,6 +196,7 @@ class App extends React.Component {
                         <Route path = {'/PlaceOrder'} exact component={PlaceOrder} />
                         <Route path = {'/watchlist'} exact component={WatchList} />
                         <Route path = {'/orderDetails'} exact component={OrderCompleteDetails} />
+                        <Route path = {'/watchlistItems'} exact component={WatchListItems} />
 
 
 
@@ -209,7 +214,8 @@ class App extends React.Component {
                         <Route path = {'/ProductDetails'} exact component={ProductDetails}/>
                         <Route path = {'/Comments'} exact component={Comments}/>
                         <Route path = {'/Rating'} exact component={Rating}/>
-                        <Route path = {'/Home'} exact component={Home}/>
+                        <Route path = {'/'} exact component={Home}/>
+                        {/* <Route path = {'/Noti'} exact component={Notification}/> */}
 
 
 
@@ -220,6 +226,8 @@ class App extends React.Component {
                         <Route  path = {'/addstoremanager'}  exact component={AddStoreManager} />
                         <Route  path = {'/showstoremanager'}  exact component={showStoreManager} />
                         <Route  path = {'/addCategory'}  exact component={AddCategory} />
+                        <Route  path = {'/adminhome'}  exact component={homePage} />
+                        <Route path={'/storemagerDetails'} exact component={storemanagerDetails}/>
 
 
 

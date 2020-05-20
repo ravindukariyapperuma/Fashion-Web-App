@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import './LoginRegister.css';
 import back from './shopping.gif'
 import logo from './logo.gif'
-import  { Redirect } from 'react-router-dom'
+import  { Redirect, Link } from 'react-router-dom'
 import 'react-notifications/lib/notifications.css';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
+import swal from 'sweetalert';
 
 const axios = require('axios');
 
@@ -71,7 +72,12 @@ export default class header extends Component{
             console.log(response.data.length)
             console.log('res',response.data[0])
             if(response.data.length != 1){
-                alert("Please Ragister");
+                // alert("Please Ragister");
+                // NotificationManager.success('Please Ragister', 'Hi....');
+                swal("Hi User...", "Please Register Before Login", "info");
+                // NotificationManager.warning('Click hear to register', 'Please Register', 5000, () => {
+                //     (this.setState({register: true}))
+                //   });
                 this.setState({register: true});
             }
 
@@ -83,12 +89,15 @@ export default class header extends Component{
                 console.log('user password',this.state.user.username)
                 if(this.state.password == this.state.user.password){
                     // sessionStorage.setItem('userData', this.state.user);
-                    
+                    // swal("Login Success", "Hi "+this.state.username, "success");
                     // alert("Login Success");
+                    // NotificationManager.success('Hi '+this.state.username, 'Login Success');
                     this.setState({success: true});
                 } else{
                     // NotificationManager.success('Success message', 'Title here');
-                    alert("Password incorect");
+                    // alert("Password incorect");
+                    // swal("Password incorect", "", "error");
+                    NotificationManager.error(this.state.username+' Please enter correct password', 'Password incorect');
                 }
             });
             
@@ -102,9 +111,9 @@ export default class header extends Component{
     
     render() {
         if(this.state.success) {
-            return <Redirect to={"/Home?username="+this.state.user.username} />
+            return <Redirect to={"/?username="+this.state.user.username} />
         } else if(this.state.register){
-            return <Redirect to={"/Register"} />
+            return <Redirect to={"/Register?username="+this.state.username} />
         }
 
         // if(sessionStorage.getItem("userData")) {
@@ -113,7 +122,10 @@ export default class header extends Component{
             
         const {username, password} =this.state
         return(
-            <div className="" style={{marginLeft: "5%", marginRight: "5%", marginTop: "5%"}}>
+            <div className="" style={{marginLeft: "5%", marginRight: "5%", marginTop: "2%"}}>
+                {/* <div className="row" style={{backgroundColor: "#ef9a9a"}}>
+                    <br/>
+                    </div> */}
                 <div className="row">
                     <div className="col-md-6">
                     <div style={{textAlign: "center"}}>
@@ -123,7 +135,10 @@ export default class header extends Component{
                             <img src={back} width="100%"/>
                     </div>
                     <div className="col-md-6">
+                        
                         <br/><br/><br/>
+                        
+                        <br/>
                     <form onSubmit={this.handleLoginSubmit}>
                                     <div className="formalign">
                                         <h1 align="center">
@@ -154,7 +169,7 @@ export default class header extends Component{
                                             required />
                                         </div>
 
-                                        <button type="submit" className="btn1">Login</button>
+                                        <button type="submit" className="btn2">Login</button>
 
                                         <br /><br />
 
@@ -162,10 +177,19 @@ export default class header extends Component{
                                             {/* <a href="reset.html">Lost your password?</a><br/> */}
                                             <a href="/Register">Don't have an account?</a>
                                         </p>
+                                        <br/><br/>
+                                        <div style={{textAlign: "center"}}>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <Link to={'/Storemanagerlogin'} style={{color: "#ffffff"}} className="btn btn-red"><i id="navbar-static-cart" alt="Cart" className="fas fa-user"> </i> StoreManager/Admin Login</Link>
+                        </div>
                                     </div>
                                 </form>
                     </div>
                 </div>
+                {/* <div className="row" style={{backgroundColor: "#ef9a9a"}}>
+                    <br/>
+                    </div> */}
+                    <NotificationContainer/>
             </div>
         )
     }

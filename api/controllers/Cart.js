@@ -1,7 +1,13 @@
 let Order = require('../models/PlaceOrder');
+let Product = require('../models/Product')
 const nodeailer = require("nodemailer");
+const process = require('process');
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
+let WatchListItems = require('../models/WatchList')
 
+const path = require('path');
+const ABSPATH = path.dirname(process.mainModule.filename)
+console.log(ABSPATH)
 let transporter = nodeailer.createTransport({
     service: "gmail",
     auth: {
@@ -29,17 +35,17 @@ exports.Find_All_OrderDetails_User = (req,res,next)=>{
                     to: key.email,
                     subject: "Your Order Delivered",
                     html:
-                        '<form style="background-color: #f9edff " ' +
-                        '<h1> Hi '+ key.fullname + ', </h1>' +' <img src="cid:uniqueID@create.ee" style="width: 500px" /> ' +
-                        '<p> Thank you very much for the Order. Your payment is successfully completed. Your Ordered Item will receive Asap </p>' +
+                        '<form style="background-color: #ffebee" ' +
+                        '<h1> Hi '+ key.fullname + ', </h1> <br /> <br />' +' <img src="cid:Design01" style="width: 500px" /> ' +' <br /> <br />'+
+                        '<p> Thank you very much for the Order. Your payment is successfully completed. Your Ordered Item will receive Asap. Below include the Order informations you confirmed! Thank you very much!  </p>' +
                         '<h3> Your Total Amount of Payment is: : ' + key.TotalCost + '</h3>'+
                         '<h3> Your Order ID is : ' + key.OrderId + '</h3>'+
                         '<h3> Your Tracking ID is : ' + key.TrackingNum  + '</h3>' +
                         '</form>',
                     attachments: [{
-                        filename: 'shop.gif',
-                        path: 'C:/shop.gif',
-                        cid: 'uniqueID@create.ee'
+                        filename: 'Design01.png',
+                        path: ABSPATH + "/Design01.png",
+                        cid: 'Design01'
                     }]
                 }
                 transporter.sendMail(sentinfo, (err, object) => {
@@ -58,14 +64,32 @@ exports.Find_All_OrderDetails_User = (req,res,next)=>{
                 }
 
 
-            ))
-            }
-
-
-
-        )
-        .catch(err=>res.status(400).json("Error:"+err))
+            ))}).catch(err=>res.status(400).json("Error:"+err))
 
 
 }
 
+exports.Find_Watchlist_Items = (req,res,next)=>{
+    WatchListItems.find({'userID':req.params.userID})
+        .then(orderDetails => {
+            res.send(orderDetails)
+            console.log(orderDetails)
+        })
+
+}
+
+
+exports.Delete_WatchList_Items = (req,res,next)=>{
+    WatchListItems.findOneAndDelete({'_id':req.params._id})
+        .then(()=>res.json('Item Deleted'))
+        .catch(err=>res.status(400).json('Error'+err))
+}
+
+
+exports.Update_WatchList_Items = (req,res,next)=>{
+    Product.findOne({'productid':req.params.productid})
+        .then(product =>{
+            product.quantity--
+        }).then(()=>res.json('Item Updated'))
+        .catch(err=> res.status(400).json('Err'+err))
+}

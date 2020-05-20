@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { MDBContainer, MDBInputGroup ,MDBBtn} from "mdbreact";
-import './Product.css';
+import './css/Product.css';
 import Footer from '../CommonComponents/footer';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 import axios from 'axios'
 
 
@@ -53,7 +54,7 @@ class EditProduct extends Component {
              price  : response.data.map(product=>product.price),
              quantity : response.data.map(product=>product.quantity),
              discount : response.data.map(product=>product.discount),
-          //   image : response.data.map(product=>product.image),
+            // image : response.data.map(product=>product.image),
              stockmanagerid : response.data.map(product=>product.stockmanagerid)
          })
           
@@ -181,7 +182,8 @@ class EditProduct extends Component {
        
     })
         // window.location = '/';
-        alert('Product Details Updated Successfully')
+       // alert('Product Details Updated Successfully')
+       NotificationManager.success('Product Details Updated Successfully', 'Success');
   } 
 
    }
@@ -198,12 +200,12 @@ class EditProduct extends Component {
         formIsValid = false;    
         formErrors["descriptionErr"] = "Description is required.";    
     }
-    else if(description.length<2)    
-   {
-        formIsValid = false;    
-        formErrors["descriptionErr"] = "Description characters more than 2 required."; 
+  //   else if(description.length<2)    
+  //  {
+  //       formIsValid = false;    
+  //       formErrors["descriptionErr"] = "Description characters more than 2 required."; 
 
-   }
+  //  }
    if (image === null) {
     formIsValid = false;    
     formErrors["imageErr"] = "Please select image"; 
@@ -230,20 +232,19 @@ class EditProduct extends Component {
            <h2 className="header">Edit Product</h2>
            <form  onSubmit={this.onSubmit}>
               <div >
-                   <div className="jumbotron" >
+                   <div className="jumbotron"  style={{fontFamily:"Cambria, Cochin, Georgia, Times, 'Times New Roman', serif",fontSize:"medium"}}>
 
                          <div className="texboxwidth">
                               <label htmlFor="exampleInput">Product Main Category</label>
                                <div className="icons">
                                 <i class="fas fa-list-ol fa-lg"></i>
                                 </div>
-                             <select ref = "userInputMaincate" required className="form-control" value ={this.state.maincategory} onChange={this.OnChangemaincatrgory} multiple= {false}>
-                               {
-                                 this.state.maincategorys.map(function(maincategorys){
-                                 return <option key={maincategorys} value={maincategorys} >{maincategorys}</option>;
-                                 })   
-                               }
-                              </select>    
+                              <select ref = "userInput" required className="form-control" value ={this.state.maincategory} onChange={this.OnChangemaincatrgory} multiple= {false}>
+                                <option key ="Men" value="Men">Men</option>
+                                <option key ="Women" value="Women">Women</option>
+                                <option key ="Kid" value="Kids">Kids</option>
+                                <option key ="Other" value="Other">Other</option>
+                              </select>  
                            </div>
                           <br/>
                              <h1></h1>
@@ -330,7 +331,7 @@ class EditProduct extends Component {
                                 <div className="icons">
                                      <i class="fas fa-image fa-lg"></i>
                                 </div>
-                           <input ref=" " type="file" className="form-control-file ${imageErr ? 'showError' : ''}" id="exampleFormControlFile1"  onChange={(e)=>this.OnChangeImage(e)} />
+                           <input ref=" " type="file" className="form-control-file ${imageErr ? 'showError' : ''}" id="exampleFormControlFile1"  onChange={(e)=>this.OnChangeImage(e)} /><b>Please select image</b>
                            {imageErr &&    
                                 <div style={{ color: "red", paddingBottom: 10 }}>{imageErr}</div>    
                                   }  
@@ -347,7 +348,7 @@ class EditProduct extends Component {
                           <br/>
 
                           <div className="text-center mt-4">
-                            <MDBBtn color="#5e35b1 deep-purple darken-1" type="submit">
+                            <MDBBtn color="#c62828 red darken-3" type="submit">
                               Update Product
                             </MDBBtn>
                         </div>
@@ -356,6 +357,7 @@ class EditProduct extends Component {
               </div>
            </form>
            <Footer/>
+           <NotificationContainer/>
       </div>
     )
   }

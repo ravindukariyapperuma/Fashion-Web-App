@@ -15,6 +15,15 @@ const PlaceOrderr = new Schema({
         type:String,
         required:true
     },
+    address1:{
+        type:String,
+    },
+    state:{
+        type:String,
+    },
+    postalCode:{
+        type:String,
+    },
     contactNo:{
         type:String,
         required:true
@@ -30,18 +39,20 @@ const PlaceOrderr = new Schema({
     TotalCost:{
         type:String,
         required:true
-    },cardNumber:{
+    },
+    deliverHome:{
+      type: String,
+    },
+    cardNumber:{
         type:String,
-        required:true
     },
     cvv:{
         type:String,
-        required:true
     },
     expireDate:{
         type:String,
-        required:true
     }
+
 
 
 });
